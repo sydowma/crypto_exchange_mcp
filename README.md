@@ -7,7 +7,7 @@
 git clone https://github.com/sydowma/crypto_exchange_mcp.git
 ```
 2. update settings
-`~Library/Application\ Support/Claude/claude_desktop_config.json`
+`~/Library/Application\ Support/Claude/claude_desktop_config.json`
 
 `{your_path}` means git repo fold path
 
