@@ -1,4 +1,15 @@
-# crypto_exchange_mcp
+# Description
+
+MCP server implementation for the cryptocurrency exchange. This package provides a simple interface to interact with Bybit/OKX/Binance public API endpoints.
+
+## Features
+
+- Real-time price data retrieval
+- Order book access for both spot and linear markets
+- Funding rate monitoring
+- Open interest tracking
+- Price change percentage calculations
+
 
 ## bybit example with Claude desktop
 
