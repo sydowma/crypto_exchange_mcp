@@ -25,7 +25,7 @@ def get_last_price(symbol: str, category: str = "spot") -> float:
     return float(response.json()["result"]["list"][0]["lastPrice"])
 
 @mcp.tool()
-def get_last_price(ccy: str, category: str = "spot") -> float:
+def get_last_price_by_currency(ccy: str, category: str = "spot") -> float:
     """
     Get the bybit last price of a currency
 
@@ -40,13 +40,19 @@ def get_last_price(ccy: str, category: str = "spot") -> float:
     return float(response.json()["result"]["list"][0]["lastPrice"])
 
 @mcp.tool()
-def get_price_change(symbol: str) -> float:
+def get_price_change(symbol: str) -> str:
     """
-    Get the bybit price change of a symbol
+    Get the bybit price change of a symbol, which is the price change percentage in the last 24 hours
+
+    Args:
+        symbol: The symbol to get the price change of  (e.g. BTCUSDT)
+    Returns:
+        The price change of the symbol
     """
     url = f"{API_BASE_URL}/v5/market/tickers?category=spot&symbol={symbol}"
     response = requests.get(url)
-    return float(response.json()["result"]["list"][0]["priceChange"])
+    price_change = float(response.json()["result"]["list"][0]["price24hPcnt"])
+    return f"{price_change * 100}%"
 
 @mcp.tool()
 def get_order_book_spot(symbol: str) -> dict:
@@ -55,7 +61,10 @@ def get_order_book_spot(symbol: str) -> dict:
     """
     url = f"{API_BASE_URL}/v5/market/orderbook?category=spot&symbol={symbol}"
     response = requests.get(url)
-    return response.json()["result"]["list"]
+    result = response.json()["result"]
+    asks = result["a"]
+    bids = result["b"]
+    return {"asks": asks, "bids": bids}
 
 @mcp.tool()
 def get_order_book_linear(symbol: str) -> dict:
@@ -64,7 +73,10 @@ def get_order_book_linear(symbol: str) -> dict:
     """
     url = f"{API_BASE_URL}/v5/market/orderbook?category=linear&symbol={symbol}"
     response = requests.get(url)
-    return response.json()["result"]["list"]
+    result = response.json()["result"]
+    asks = result["a"]
+    bids = result["b"]
+    return {"asks": asks, "bids": bids}
 
 @mcp.tool()
 def get_funding_rate(symbol: str) -> str:
@@ -77,7 +89,7 @@ def get_funding_rate(symbol: str) -> str:
     return f"{funding_rate * 100}%"
 
 @mcp.tool()
-def get_open_interest(symbol: str, interval: str, start_time: str=None, end_time: str=None) -> float:
+def get_open_interest(symbol: str, interval: str="1d", start_time: str=None, end_time: str=None) -> float:
     """
     Get the bybit open interest of a symbol for contract trading
 
