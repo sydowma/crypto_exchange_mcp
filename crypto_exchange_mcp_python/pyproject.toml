@@ -1,0 +1,12 @@
+[project]
+name = "crypto-exchange-mcp-python"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp[cli]>=1.6.0",
+    "pybit>=5.10.0",
+    "python-binance>=1.0.28",
+    "python-okx>=0.3.7",
+]
