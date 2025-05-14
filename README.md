@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/sydowma-crypto-exchange-mcp-badge.png)](https://mseep.ai/app/sydowma-crypto-exchange-mcp)
+
 # Description
 
 MCP server implementation for the cryptocurrency exchange. This package provides a simple interface to interact with Bybit/OKX/Binance public API endpoints.
