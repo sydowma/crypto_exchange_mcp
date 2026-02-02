@@ -1,0 +1,10 @@
+# Crypto Exchange MCP Server - Requirements
+
+# Core dependencies
+mcp[cli]>=1.6.0
+requests>=2.31.0
+
+# Optional exchange SDKs (not required, we use direct REST API)
+# pybit>=5.10.0
+# python-binance>=1.0.28
+# python-okx>=0.3.7
