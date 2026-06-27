@@ -30,6 +30,12 @@ A comprehensive MCP (Model Context Protocol) server implementation for cryptocur
 
 ## Installation
 
+### From GitHub Release
+
+```shell
+uv tool install https://github.com/sydowma/crypto_exchange_mcp/releases/download/v0.3.1/crypto_exchange_mcp_python-0.3.1-py3-none-any.whl
+```
+
 ### With uv (Recommended)
 
 ```shell

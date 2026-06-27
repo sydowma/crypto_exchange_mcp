@@ -11,8 +11,16 @@ also launch ready-made exchange MCP servers behind one entrypoint:
 
 ## Install
 
+From the GitHub Release wheel:
+
 ```bash
-uv tool install crypto-exchange-mcp-python
+uv tool install https://github.com/sydowma/crypto_exchange_mcp/releases/download/v0.3.1/crypto_exchange_mcp_python-0.3.1-py3-none-any.whl
+```
+
+Or directly from the GitHub repository:
+
+```bash
+uv tool install "git+https://github.com/sydowma/crypto_exchange_mcp.git#subdirectory=crypto_exchange_mcp_python"
 ```
 
 Or run from this checkout:
@@ -28,7 +36,11 @@ uv run crypto-exchange-mcp
   "mcpServers": {
     "crypto-exchange": {
       "command": "uvx",
-      "args": ["crypto-exchange-mcp-python"]
+      "args": [
+        "--from",
+        "https://github.com/sydowma/crypto_exchange_mcp/releases/download/v0.3.1/crypto_exchange_mcp_python-0.3.1-py3-none-any.whl",
+        "crypto-exchange-mcp"
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 [project]
 name = "crypto-exchange-mcp-python"
-version = "0.3.0"
+version = "0.3.1"
 description = "Unified MCP entrypoint for cryptocurrency exchanges with built-in REST tools and external exchange MCP aggregation"
 readme = "README.md"
 requires-python = ">=3.12"
