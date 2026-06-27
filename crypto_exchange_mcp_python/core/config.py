@@ -23,8 +23,10 @@ class ExchangeCredentials:
 class Config:
     """Configuration manager for exchange credentials."""
 
-    def __init__(self):
+    def __init__(self, load_env: bool = True):
         self._credentials: dict[str, ExchangeCredentials] = {}
+        if load_env:
+            self.load_from_env()
 
     def load_from_env(self):
         """Load credentials from environment variables.
@@ -79,4 +81,3 @@ class Config:
 
 # Global config instance
 config = Config()
-config.load_from_env()

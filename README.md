@@ -169,6 +169,51 @@ You can also run each exchange separately:
 ### Utility
 
 - `get_supported_exchanges()` - List exchanges and auth status
+- `get_external_mcp_servers()` - List configured ready-made external MCP servers
+- `list_exchange_mcp_tools(exchange)` - List tools from an external exchange MCP server
+- `call_exchange_mcp_tool(exchange, tool_name, arguments)` - Call a tool exposed by an external exchange MCP server
+
+## External MCP Aggregation
+
+The unified server can launch existing exchange MCP implementations as stdio
+child servers and expose them through one entrypoint.
+
+Default external servers:
+
+| Exchange | External MCP | Default command |
+|----------|--------------|-----------------|
+| Bybit | Official Bybit Trading MCP | `npx -y bybit-official-trading-server@latest` |
+| OKX | Official OKX Agent Trade Kit | `npx -y @okx_ai/okx-trade-mcp@latest --modules market --read-only` |
+| Binance | Community Binance MCP Server | `uvx --from binance-mcp-server binance-mcp-server` |
+
+Use these tools from the main `crypto-exchange` MCP server:
+
+1. `get_external_mcp_servers()` to inspect configured children.
+2. `list_exchange_mcp_tools("bybit")` or another exchange to see child tools.
+3. `call_exchange_mcp_tool("bybit", "tool_name", {"arg": "value"})` to call a child tool.
+
+Override or add child MCP servers with `CRYPTO_EXCHANGE_MCP_CONFIG`:
+
+```json
+{
+  "servers": {
+    "okx": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@okx_ai/okx-trade-mcp@latest",
+        "--modules",
+        "market,spot,account",
+        "--read-only"
+      ],
+      "env_keys": ["OKX_API_KEY", "OKX_API_SECRET", "OKX_PASSPHRASE"]
+    }
+  }
+}
+```
+
+Set `CRYPTO_EXCHANGE_MCP_ENABLE_DEFAULTS=false` to disable built-in external MCP
+definitions and rely only on your config file.
 
 ## Symbol Format by Exchange
 

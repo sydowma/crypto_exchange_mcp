@@ -80,7 +80,7 @@ class OKXExchange(BaseExchange):
                 self.passphrase = creds.passphrase
                 self._authenticated = True
 
-        self.base_url = self.API_TESTNET if demo else self.API_BASE_URL
+        self.base_url = self.API_TESTNET_URL if demo else self.API_BASE_URL
         self.demo = demo
         self.simulate = simulate
         self.session = requests.Session()

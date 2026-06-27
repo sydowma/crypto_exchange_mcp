@@ -1,7 +1,7 @@
 [project]
 name = "crypto-exchange-mcp-python"
-version = "0.2.0"
-description = "MCP server for cryptocurrency exchanges (Bybit, Binance, OKX) supporting both public and private APIs"
+version = "0.3.0"
+description = "Unified MCP entrypoint for cryptocurrency exchanges with built-in REST tools and external exchange MCP aggregation"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -17,6 +17,7 @@ okx = ["python-okx>=0.3.7"]
 
 [project.scripts]
 crypto-exchange = "crypto_exchange_server:main"
+crypto-exchange-mcp = "crypto_exchange_server:main"
 
 [build-system]
 requires = ["hatchling"]

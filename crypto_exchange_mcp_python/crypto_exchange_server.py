@@ -36,8 +36,8 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
-from core.config import Config
 from core.exceptions import ExchangeError
+from core.external_mcp import ExternalMCPGateway
 from exchanges.binance import BinanceExchange
 from exchanges.bybit import BybitExchange
 from exchanges.okx import OKXExchange
@@ -45,12 +45,10 @@ from exchanges.okx import OKXExchange
 # Create MCP server
 mcp = FastMCP("crypto-exchange")
 
-# Initialize exchanges
-config = Config()
-
 bybit = BybitExchange()
 binance = BinanceExchange()
 okx = OKXExchange()
+external_mcp = ExternalMCPGateway()
 
 # Track which exchanges have authentication
 EXCHANGES = {
@@ -651,6 +649,56 @@ def get_arbitrage_opportunities(symbols: list[str] | None = None, min_spread: fl
     return opportunities
 
 
+# ===== External MCP Aggregation Tools =====
+
+@mcp.tool()
+def get_external_mcp_servers() -> dict[str, dict[str, Any]]:
+    """
+    Get configured external exchange MCP servers.
+
+    These are ready-made exchange MCP implementations launched as stdio child
+    servers when a tool is listed or called.
+
+    Returns:
+        Configured external MCP servers without secret values
+    """
+    return external_mcp.list_servers()
+
+
+@mcp.tool()
+def list_exchange_mcp_tools(exchange: str) -> list[dict[str, Any]]:
+    """
+    List tools from a ready-made external exchange MCP server.
+
+    Args:
+        exchange: External MCP server name (bybit, okx, binance by default)
+
+    Returns:
+        Tool names, descriptions, and input schemas from the child MCP server
+    """
+    return external_mcp.list_tools(exchange)
+
+
+@mcp.tool()
+def call_exchange_mcp_tool(
+    exchange: str,
+    tool_name: str,
+    arguments: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """
+    Call a tool from a ready-made external exchange MCP server.
+
+    Args:
+        exchange: External MCP server name (bybit, okx, binance by default)
+        tool_name: Tool name exposed by that exchange MCP server
+        arguments: Tool arguments as an object
+
+    Returns:
+        MCP tool result content from the child exchange server
+    """
+    return external_mcp.call_tool(exchange, tool_name, arguments)
+
+
 # ===== Status and Info =====
 
 @mcp.tool()
@@ -666,6 +714,7 @@ def get_supported_exchanges() -> dict[str, dict[str, Any]]:
             "authenticated": EXCHANGES[name].is_authenticated,
             "public_api": True,
             "private_api": EXCHANGES[name].is_authenticated,
+            "external_mcp": external_mcp.list_servers().get(name),
         }
         for name in EXCHANGES
     }
@@ -673,5 +722,10 @@ def get_supported_exchanges() -> dict[str, dict[str, Any]]:
 
 # ===== Main =====
 
-if __name__ == "__main__":
+def main() -> None:
+    """Run the unified crypto exchange MCP server."""
     mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()
